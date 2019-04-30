@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mooq.mlibrary.mvp.presenter.BaseActivityPresenter;
 import com.mooq.mlibrary.mvp.view.BaseActivityView;
-import com.mooq.mlibrary.mvp.view.ProgressDialog;
+import com.mooq.mlibrary.custom.ProgressDialog;
 
 /**
  * Created by moq.

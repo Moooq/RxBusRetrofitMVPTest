@@ -1,4 +1,4 @@
-package com.mooq.mlibrary.mvp.view;
+package com.mooq.mlibrary.custom;
 
 import android.app.Dialog;
 import android.content.Context;
