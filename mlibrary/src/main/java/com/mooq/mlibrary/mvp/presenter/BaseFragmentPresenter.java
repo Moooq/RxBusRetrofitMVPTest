@@ -7,10 +7,6 @@ import android.os.Bundle;
  * on 2019/4/29
  */
 public abstract class BaseFragmentPresenter extends BasePresenter {
-	@Override
-	public void onCreate() {
-
-	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

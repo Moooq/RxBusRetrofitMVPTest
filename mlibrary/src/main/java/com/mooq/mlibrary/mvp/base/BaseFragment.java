@@ -61,12 +61,12 @@ public abstract class BaseFragment<P extends BaseFragmentPresenter> extends Frag
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mPresenter.onAttach(this);
-		mPresenter.onCreate();
+		mPresenter.onCreate(this.getActivity());
 	}
 
 	@Override
 	public void onDestroyView() {
-		mPresenter.onDestroy();
+		mPresenter.onDestroy(this.getActivity());
 		super.onDestroyView();
 	}
 

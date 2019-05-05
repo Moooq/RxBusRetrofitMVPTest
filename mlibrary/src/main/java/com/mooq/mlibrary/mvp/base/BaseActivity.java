@@ -13,7 +13,7 @@ import com.mooq.mlibrary.custom.ProgressDialog;
  * Created by moq.
  * on 2019/4/29
  */
-public abstract class BaseActivity<P extends BaseActivityPresenter<BaseActivityView>> extends AppCompatActivity implements BaseActivityView{
+public abstract class BaseActivity<P extends BaseActivityPresenter> extends AppCompatActivity implements BaseActivityView{
 
 	protected P mPresenter;
 

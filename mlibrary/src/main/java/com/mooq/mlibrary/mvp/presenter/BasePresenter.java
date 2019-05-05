@@ -1,16 +1,20 @@
 package com.mooq.mlibrary.mvp.presenter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 
 import com.mooq.mlibrary.mvp.view.BaseView;
+import com.mooq.mlibrary.network.BaseObserver;
+import com.mooq.mlibrary.utils.MLog;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by moq.
@@ -19,11 +23,11 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BasePresenter<V extends BaseView> {
 	public V mView;
 
-	private Context mContext;
+	public Context mContext;
 
 	private CompositeDisposable mCompositeDisposable;
 
-	public void addSubscriptionStartRequest(Observable observable, DisposableObserver observer){
+	public void addSubscriptionStartRequest(Observable observable, BaseObserver observer){
 		if (mCompositeDisposable == null)
 			mCompositeDisposable = new CompositeDisposable();
 
@@ -53,4 +57,5 @@ public abstract class BasePresenter<V extends BaseView> {
 	public abstract void onDestroy(Activity activity);
 
 	public abstract void onSaveInstanceState(Bundle outState);
+
 }
