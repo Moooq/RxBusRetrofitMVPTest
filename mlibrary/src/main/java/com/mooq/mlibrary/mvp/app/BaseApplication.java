@@ -2,11 +2,12 @@ package com.mooq.mlibrary.mvp.app;
 
 import android.app.Application;
 
+import com.mooq.mlibrary.utils.FileUtil;
 import com.mooq.mlibrary.utils.MLog;
 
 /**
  * Created by moq.
- * on 2019/4/29
+ * on 2019/5/5
  */
 public class BaseApplication extends Application {
 	private static BaseApplication instance;
@@ -20,6 +21,7 @@ public class BaseApplication extends Application {
 		instance = this;
 
 		MLog.init(getApplicationContext(),true);
+		FileUtil.getInstance().init(this);
 	}
 
 

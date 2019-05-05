@@ -2,6 +2,7 @@ package com.mooq.mlibrary.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -15,6 +16,88 @@ import java.io.IOException;
  * on 2019/4/30
  */
 public class FileUtil {
+
+	private static String mSDCardFolderPath;
+	private static String mImgFolderPath;
+	private static String mApkFolderPath;
+	private static String mCacheFolderPath;
+	private static String mLogFolderPath;
+
+	public Context context;
+
+	public static FileUtil getInstance() {
+
+		return FileUtilHolder.instance;
+	}
+
+	public void init(Context context) {
+
+		this.context = context;
+
+		mImgFolderPath = getImgFolderPath();
+		mApkFolderPath = getApkFolderPath();
+		mCacheFolderPath = getCacheFolderPath();
+		mLogFolderPath = getLogFolderPath();
+
+		mkdirs(mImgFolderPath);
+		mkdirs(mApkFolderPath);
+		mkdirs(mCacheFolderPath);
+		mkdirs(mLogFolderPath);
+	}
+
+	private String getSDCardFolderPath() {
+		if (TextUtils.isEmpty(mSDCardFolderPath)) {
+			mSDCardFolderPath = Environment.getExternalStorageDirectory().getPath() + "/"+AppUtil.getAppName(context);
+		}
+
+		return mSDCardFolderPath;
+	}
+
+	public File mkdirs(@NonNull String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+
+		return file;
+	}
+
+	public String getCacheFolderPath() {
+		if (TextUtils.isEmpty(mCacheFolderPath)) {
+			mCacheFolderPath = getSDCardFolderPath() + "/Cache/";
+		}
+		return mCacheFolderPath;
+	}
+
+	public String getImgFolderPath() {
+		if (TextUtils.isEmpty(mImgFolderPath)) {
+			mImgFolderPath = getSDCardFolderPath() + "/Img/";
+		}
+		return mImgFolderPath;
+	}
+
+	public String getApkFolderPath() {
+		if (TextUtils.isEmpty(mApkFolderPath)) {
+			mApkFolderPath = getSDCardFolderPath() + "/Apk/";
+		}
+		return mApkFolderPath;
+	}
+
+	public String getLogFolderPath() {
+		if (TextUtils.isEmpty(mLogFolderPath)) {
+			mLogFolderPath = getSDCardFolderPath() + "/Log/";
+		}
+		return mLogFolderPath;
+	}
+
+	public File getCacheFolder(){
+		return mkdirs(getCacheFolderPath());
+	}
+
+	private static class FileUtilHolder {
+		private static FileUtil instance = new FileUtil();
+	}
+
 	/**
 	 * 判断SD卡是否挂载
 	 */

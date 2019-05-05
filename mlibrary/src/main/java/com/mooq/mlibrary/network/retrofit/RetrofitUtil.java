@@ -1,12 +1,28 @@
 package com.mooq.mlibrary.network.retrofit;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.mooq.mlibrary.utils.FileUtil;
 import com.mooq.mlibrary.utils.MLog;
+import com.mooq.mlibrary.utils.NetworkUtil;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -21,6 +37,8 @@ public class RetrofitUtil{
 	 * 服务器地址
 	 */
 	private static String API_HOST;
+
+	public static Context mContext;
 
 	private static final int DEFAULT_TIME_OUT = 5;//超时时间 5s
 	private static final int DEFAULT_READ_TIME_OUT = 10;
@@ -58,6 +76,49 @@ public class RetrofitUtil{
 //					.build();
 			builder.addInterceptor(interceptor);
 
+			builder.cookieJar(new CookieJar() {
+				private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>(16);
+
+				@Override
+				public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+					cookieStore.put(HttpUrl.parse(url.host()),cookies);
+				}
+
+				@Override
+				public List<Cookie> loadForRequest(HttpUrl url) {
+					List<Cookie> cookies = cookieStore.get(url.host());
+					return cookies !=null?cookies:new ArrayList<Cookie>();
+				}
+			});
+
+
+			//添加Cache拦截器，有网时添加到缓存中，无网时取出缓存
+			File file = FileUtil.getInstance().getCacheFolder();
+			Cache cache=new Cache(file,1024*1024*100);
+			builder.cache(cache).addInterceptor(new Interceptor() {
+				@Override
+				public Response intercept(Chain chain) throws IOException {
+					Request request = chain.request();
+					if (!NetworkUtil.isNetwork(mContext)){
+						Request newRequest = request.newBuilder()
+								.cacheControl(CacheControl.FORCE_CACHE)
+								.build();
+
+						return chain.proceed(newRequest);
+					}
+					else{
+						int maxTime =24*60*60;
+						Response response=chain.proceed(request);
+						Response newResponse = response.newBuilder()
+								.header("Cache-Control","public, only-if-cached, max-stale="+maxTime)
+								.removeHeader("Progma")
+								.build();
+
+						return newResponse;
+					}
+				}
+			});
+
 			// if (BuildConfig.DEBUG) {
 			// Log信息拦截器
 			HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -77,12 +138,13 @@ public class RetrofitUtil{
 		}
 	}
 
-	public static RetrofitUtil getInstance() {
-		return getInstance("");
+	public static RetrofitUtil getInstance(Context context) {
+		return getInstance("",context);
 	}
 
-	public static RetrofitUtil getInstance(String baseUrl) {
+	public static RetrofitUtil getInstance(String baseUrl,Context context) {
 		if (retrofitUtil == null) {
+			mContext = context;
 			synchronized (RetrofitUtil.class) {
 				if (retrofitUtil == null) {
 					retrofitUtil = new RetrofitUtil(baseUrl);
