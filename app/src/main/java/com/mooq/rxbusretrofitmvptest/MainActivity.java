@@ -17,7 +17,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 
 	Button btnTest;
 	TextView tvMsg;
-	ScrollNoticeView                                                                                                            snvNotice;
+	ScrollNoticeView snvNotice;
 
 	@Override
 	protected MainActivityPresenter createPresenter() {
@@ -31,7 +31,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
 		tvMsg = (TextView) findViewById(R.id.tv_msg);
 		snvNotice = (ScrollNoticeView) findViewById(R.id.snv_notice);
 		btnTest.setOnClickListener(this);
-		snvNotice.setOnClickListener(this);
 	}
 
 	@Override

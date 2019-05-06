@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -25,7 +24,7 @@ import java.util.List;
  * on 2019/5/6
  */
 public class ScrollNoticeView extends LinearLayout{
-	private static final String TAG = "PUBLICNOTICEVIEW";
+	private static final String TAG = "ScrollNoticeView";
 	private Context mContext;
 	private ViewFlipper mViewFlipper;
 	private View mScrollTitleView;
