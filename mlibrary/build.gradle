@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
+group='Moooq'
 android {
     compileSdkVersion 28
 
@@ -25,38 +27,28 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api files('libs/zxing.jar')
-
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation 'org.jetbrains:annotations-java5:15.0'
-
     //retrofit
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
     //ConverterFactory的String依赖包
     api 'com.squareup.retrofit2:converter-scalars:2.4.0'
-
     api 'com.squareup.retrofit2:converter-gson:2.0.0'
-
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
     // okHttp
     api 'com.squareup.okhttp3:okhttp:3.9.0'
-
     api 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-
     api 'com.google.code.gson:gson:2.8.5'
-
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
-
+    api 'com.github.Moooq:CustomLibrary:v1.0.1'
 }

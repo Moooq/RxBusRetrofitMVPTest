@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mooq.mlibrary.custom.ScrollNoticeView;
+import com.mooq.customlibrary.ScrollNoticeView;
 import com.mooq.mlibrary.mvp.base.BaseActivity;
 import com.mooq.mlibrary.utils.MLog;
 

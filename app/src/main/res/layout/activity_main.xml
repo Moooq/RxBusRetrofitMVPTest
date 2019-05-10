@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="test"/>
 
-    <com.mooq.mlibrary.custom.ScrollNoticeView
+    <com.mooq.customlibrary.ScrollNoticeView
         android:id="@+id/snv_notice"
         android:layout_marginTop="20dp"
         app:textcolor="#000"
